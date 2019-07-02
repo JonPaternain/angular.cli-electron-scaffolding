@@ -8,10 +8,12 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "clean:dist": "rimraf ./dist",
-    "copy:electron:debug": "cpr ./electron/main.debug.js ./dist/Web/electron.js",
-    "run:electron": "electron ./dist/Web/electron.js",
-    "debug": "npm run clean:dist && ng lint && npm run build && npm run copy:electron:debug && npm run run:electron"
+    "clean": "rimraf ./dist",
+    "buildApp": "ng lint && ng build",
+    "copyElectronDebug": "cpr ./electron/main.debug.js ./dist/Web/electron.js",
+    "runElectron": "electron ./dist/Web/electron.js",
+    "watch": "onchange -v \"./src/**/*.ts\" \"./src/**/*.css\" -- npm run buildApp",
+    "debug": "npm run clean && ng lint && npm run build && npm run copyElectronDebug && concurrently \"npm run runElectron\" \"npm run watch\""
   },
   "private": true,
   "dependencies": {
@@ -36,6 +38,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
+    "concurrently": "^4.1.1",
     "cpr": "^3.0.1",
     "electron": "^5.0.6",
     "jasmine-core": "~3.4.0",
@@ -45,6 +48,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "onchange": "^6.0.0",
     "protractor": "~5.4.0",
     "rimraf": "^2.6.3",
     "ts-node": "~7.0.0",
